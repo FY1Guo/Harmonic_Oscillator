@@ -2,12 +2,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-MASS = 1
-SPRING = 20
+MASS = 1  # kg
+SPRING = 20  # kg/s^2
 
-x0 = 1
-v0 = 5
-DT = 0.001
+x0 = 1  # m
+v0 = 5  # m/s
+DT = 0.001  # s
 
 
 def force(pos, k=SPRING):
@@ -22,6 +22,7 @@ def energy(pos, vel, k=SPRING, m=MASS, dt=DT):
 
 
 def energy_cor(pos, vel, k=SPRING, m=MASS, dt=DT):
+    """Add the energy correction term"""
     return energy(pos, vel, k, m) - 1 / 2 * k * dt * vel * pos
 
 
@@ -72,10 +73,12 @@ def simulate(method, which_energy, k=SPRING, m=MASS, dt=DT):
 
 
 if __name__ == "__main__":
+    # Simulate with the theoretical Hamiltonian
     res_exp = simulate(explicit, energy, SPRING, MASS, DT)
     res_sym = simulate(symplectic, energy, SPRING, MASS, DT)
     res_run = simulate(runge_kutte, energy, SPRING, MASS, DT)
 
+    # Simulate with the Hamiltonian with correction
     res_exp_cor = simulate(explicit, energy_cor, SPRING, MASS, DT)
     res_sym_cor = simulate(symplectic, energy_cor, SPRING, MASS, DT)
     res_run_cor = simulate(runge_kutte, energy_cor, SPRING, MASS, DT)
